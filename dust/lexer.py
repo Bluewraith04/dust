@@ -26,7 +26,8 @@ tokens = [
     'AND', 'OR', 'NOT',
     'ASSIGN', 'DOT', 'COMMA', 'COLON',
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE',
-    'LBRACKET', 'RBRACKET', 'SEMICOLON'
+    'LBRACKET', 'RBRACKET', 'SEMICOLON',
+    'TRUE', 'FALSE', 'NULL'
 ] + list(reserved.values())
 
 # Operator symbols
