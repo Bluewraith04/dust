@@ -13,9 +13,9 @@ reserved = {
     'for': 'FOR',
     'in': 'IN',
     'return': 'RETURN',
-    'true': 'TRUE',
-    'false': 'FALSE',
-    'null': 'NIL'
+    # 'true': 'TRUE',
+    # 'false': 'FALSE',
+    # 'null': 'NULL'
 }
 
 # Token list (including reserved words)
@@ -72,6 +72,21 @@ def t_STRING(t):
     r'\"([^\\\"]|\\.)*?\"'
     t.value = bytes(t.value[1:-1], 'utf-8').decode('unicode_escape')
     return t
+
+# Boolean and Null Values
+def t_TRUE(t):
+    r'true'
+    t.value = True
+    return t
+
+def t_FALSE(t):
+    r'false'
+    t.value = False
+    return t
+
+def t_NULL(t):
+    r'null'
+    t.value = None
 
 # Identifier handling
 def t_ID(t):

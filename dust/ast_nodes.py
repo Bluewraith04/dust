@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Union, Optional
 
 # ======== AST Nodes ========
@@ -20,6 +20,19 @@ class UnaryOp:
 @dataclass
 class Literal:
     value: int | float | str | bool | None
+    value_type: str = field(init=False)
+    
+    def __post_init__(self):
+        self.value_type = self._infer_type(self.value)
+        
+    def _infer_type(self, value):
+        if value is None: return 'null'
+        match value:
+            case bool(): return 'bool'
+            case int(): return 'int'
+            case float(): return 'float'
+            case str(): return 'string'
+            case _: return 'unknown'
 
 @dataclass
 class Identifier:
