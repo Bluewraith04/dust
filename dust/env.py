@@ -8,8 +8,27 @@ from typing import Any, Optional
 @dataclass
 class Symbol:
     value: Any
-    kind: str
+    kind: Optional[str] = ''
     is_mutable: bool = True
+    
+    def __post_init__(self):
+        self.kind = self._infer_type(self.value)
+        
+    def _infer_type(self, value):
+        if value is None: return 'null'
+        match value:
+            case bool(): return 'bool'
+            case int(): return 'int'
+            case float(): return 'float'
+            case str(): return 'string'
+            case dict(): return 'struct'
+            case list(): return 'array'
+            case _: return 'unknown'
+            
+    def __str__(self) -> str:
+        if self.kind == "unknown": raise ValueError("Cannot cast unknown value type into object of type 'string'.")
+        return f"dust.{self.kind}({self.value})"
+        
     
 null = Symbol(
     None,
@@ -17,10 +36,16 @@ null = Symbol(
     False
 )
 
+def to_symbol(*args: Symbol | Any) -> list[Symbol]:
+    out = [Symbol(arg) if not isinstance(arg, Symbol) else arg for arg in args]
+    return out
     
-
+def to_value(*args: Symbol | Any):
+    out = [arg.value if isinstance(arg, Symbol) else arg for arg in args]
+    return out
+    
 class Environment:
-    def __init__(self, parent: Optional['Environment']) -> None:
+    def __init__(self, parent: Optional['Environment'] = None) -> None:
         self.symbols: dict[str, Symbol] = {}
         self.parent = parent
         
@@ -57,7 +82,8 @@ class Environment:
             obj = env.symbols[name]
             return obj.value
         else:
-            raise RuntimeError(f"Undefined variable '{name}'")
+            # raise RuntimeError(f"Undefined variable '{name}'")
+            return None
     
     def ref(self, name):
         env = self.lookup(name)
@@ -65,5 +91,6 @@ class Environment:
             obj = env.symbols[name]
             return obj
         else:
-            raise RuntimeError(f"Undefined variable '{name}'")
+            # raise RuntimeError(f"Undefined variable '{name}'")
+            return null
     
