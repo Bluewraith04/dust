@@ -12,7 +12,7 @@ class Symbol:
     is_mutable: bool = True
     
     def __post_init__(self):
-        self.kind = self._infer_type(self.value)
+        self.kind = self._infer_type(self.value) if not self.kind else self.kind
         
     def _infer_type(self, value):
         if value is None: return 'null'
@@ -35,14 +35,6 @@ null = Symbol(
     'null',
     False
 )
-
-def to_symbol(*args: Symbol | Any) -> list[Symbol]:
-    out = [Symbol(arg) if not isinstance(arg, Symbol) else arg for arg in args]
-    return out
-    
-def to_value(*args: Symbol | Any):
-    out = [arg.value if isinstance(arg, Symbol) else arg for arg in args]
-    return out
     
 class Environment:
     def __init__(self, parent: Optional['Environment'] = None) -> None:
