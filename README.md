@@ -1,4 +1,4 @@
-# Dust 0.1 — A Minimal Interpreted Language
+# Dust — A Minimal Interpreted Language
 
 > *"Write fast, think clean, build small."*
 
@@ -33,8 +33,8 @@ If you’ve ever wanted to build your own language, Dust is a great place to see
 ## 🛠 Installation
 
 ```bash
-git clone https://github.com/yourusername/dust-lang.git
-cd dust-lang
+git clone https://github.com/Bluewraith04/dust.git
+cd dust
 pip install .
 ````
 ---
@@ -92,7 +92,7 @@ while i < 5 {
 ## Project Structure
 
 ```text
-dust-lang/
+dust/
 ├── dust/             # Core interpreter code
 │   ├── ast_nodes.py
 │   ├── lexer.py
