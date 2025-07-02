@@ -2,8 +2,8 @@
 # Builds an AST from a list of tokens. Modular functions make grammar extension simple.
 
 from ply import yacc
-from lexer import tokens
-from ast_nodes import *
+from .lexer import tokens
+from .ast_nodes import *
 
 # === Operator Precedence ===
 precedence = (

@@ -16,6 +16,7 @@ class Symbol:
         
     def _infer_type(self, value):
         if value is None: return 'null'
+        if callable(value): return 'function'
         match value:
             case bool(): return 'bool'
             case int(): return 'int'
@@ -27,7 +28,7 @@ class Symbol:
             
     def __str__(self) -> str:
         if self.kind == "unknown": raise ValueError("Cannot cast unknown value type into object of type 'string'.")
-        return f"dust.{self.kind}({self.value})"
+        return f"{self.value}"
         
     
 null = Symbol(

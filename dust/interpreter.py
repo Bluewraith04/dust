@@ -1,7 +1,10 @@
-from ast_nodes import *
+from .ast_nodes import *
 from typing import Any, List, Tuple, Callable
-from env import Symbol, Environment, null
-from utils import *
+from .env import Symbol, Environment, null
+from .lexer import lexer
+from .parser import parser
+from .utils import *
+from .stdlib import load_stdlib
 
 class ReturnException(Exception):
     """Exception raised for return statements in function evaluation."""
@@ -16,7 +19,12 @@ class Interpreter:
     def __init__(self):
         # Initialize the global environment
         self.global_env = Environment()
+        load_stdlib(self.global_env)
         self.env = self.global_env # The current active environment
+        
+    def execute(self, source):
+        program = parser.parse(source, lexer=lexer)
+        self.eval(program)
         
     def eval(self, node: Any) -> Any:
         """
@@ -70,7 +78,7 @@ class Interpreter:
     def eval_FunctionCall(self, node: FunctionCall) -> Any:
         """Evaluates a function call."""
         # This evaluates the function expression; this should yield a callable (from a Symbol's value)
-        func_callable: Callable = self.eval(node.func)
+        func_callable: Callable = unwrap(self.eval(node.func))
         
         if not callable(func_callable):
             # If the node.func was an identifier, it might have returned a non-callable symbol's value
@@ -154,13 +162,14 @@ class Interpreter:
             call_env = Environment(parent=outer_env_at_definition)
 
             # Check parameter count
-            if len(node.parameters) != len(args):
+            if len(node.parameters if node.parameters else []) != len(args):
                 raise RuntimeError(f"Function '{node.name}' expected {len(node.parameters)} arguments but got {len(args)}")
 
             # Define parameters as symbols in the new function's environment
-            for param_node, arg_value in zip(node.parameters, args):
-                # Parameters are typically mutable local variables within the function                
-                call_env.define(param_node.name, Symbol(arg_value))
+            if node.parameters:
+                for param_node, arg_value in zip(node.parameters, args):
+                    # Parameters are typically mutable local variables within the function                
+                    call_env.define(param_node.name, Symbol(arg_value))
 
             # Save the current interpreter environment and switch to the function's environment
             previous_interpreter_env = self.env
@@ -239,7 +248,7 @@ class Interpreter:
             
     def eval_ExprStmt(self, node: Any):
         """Evaluates an expression statement (e.g., `x + 1;`)."""
-        self.eval(node.expr) # Discard the result            
+        return self.eval(node.expr)
 
     def eval_Block(self, node: Any):
         """Evaluates a block of statements, creating a new lexical scope."""
