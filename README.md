@@ -21,7 +21,7 @@ If you’ve ever wanted to build your own language, Dust is a great place to see
 
 ## ✨ Features
 
-- Basic, easy-to-understand syntax
+- Easy-to-understand syntax
 - Variables, functions, and conditionals
 - While loops and scoping
 - A working REPL with multiline support
@@ -80,7 +80,7 @@ if x > 5 {
 }
 
 // Loops
-i = 0;
+let i = 0;
 while i < 5 {
     print(i);
     i = i + 1;
