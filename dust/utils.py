@@ -37,3 +37,27 @@ def binary_op(op, left, right):
         case '&&': return left and right
         case '||': return left or right
         case _: raise RuntimeError(f"Unknown binary operator '{op}'")
+        
+class BlockTracker:
+    def __init__(self):
+        self.pairs = {'{': '}', '(': ')', '[': ']'}
+        self.opening = set(self.pairs.keys())
+        self.closing = set(self.pairs.values())
+
+    def check_string(self, code: str) -> bool:
+        stack = []
+        in_string = False
+        escape = False
+
+        for char in code:
+            if char == '"' and not escape:
+                in_string = not in_string
+            elif char in self.opening and not in_string:
+                stack.append(char)
+            elif char in self.closing and not in_string:
+                if not stack or self.pairs[stack[-1]] != char:
+                    return True  # mismatched or premature closing
+                stack.pop()
+            escape = (char == '\\' and not escape)
+
+        return bool(stack) or in_string
