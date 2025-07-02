@@ -2,7 +2,7 @@
 
 > *"Write fast, think clean, build small."*
 
-Dust is a small interpreted programming language written in Python. It's designed to be understandable, hackable, and expressive with minimal syntax and maximum readability. It's not here to change the world—just to help you learn how one might.
+Dust is a small interpreted programming language written in Python. It's designed to be understandable, hackable, and expressive with minimal syntax and maximum readability.
 
 ---
 
@@ -14,8 +14,6 @@ Dust is a toy language built for:
 - Experimenting with language design
 - Creating small, readable programs without boilerplate
 - Exploring implementation tradeoffs
-
-If you’ve ever wanted to build your own language, Dust is a great place to see what that looks like, stripped down to its bare essentials.
 
 ---
 
