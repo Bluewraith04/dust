@@ -6,7 +6,7 @@ Dust is a small interpreted programming language written in Python. It's designe
 
 ---
 
-## 🚀 Why Dust?
+## Why Dust?
 
 Dust is a toy language built for:
 
@@ -17,7 +17,7 @@ Dust is a toy language built for:
 
 ---
 
-## ✨ Features
+## Features
 
 - Easy-to-understand syntax
 - Variables, functions, and conditionals
@@ -28,7 +28,7 @@ Dust is a toy language built for:
 
 ---
 
-## 🛠 Installation
+## Installation
 
 ```bash
 git clone https://github.com/Bluewraith04/dust.git
@@ -53,7 +53,7 @@ dust path/to/file.dust
 
 ---
 
-## 📘 Language Overview
+## Language Overview
 
 ```dust
 // Hello world
@@ -106,12 +106,12 @@ dust/
 ```
 
 
-## 🙌 Contributing
+## Contributing
 
 If you want to extend Dust, hack the parser, or build your own features, start by reading the code in the `dust/` directory. Contributions, forks, and experiments are all welcome.
 
 ---
 
-## 📄 License
+## License
 
 MIT License. Dust is free to use, learn from, or tear apart for your own language ideas.
